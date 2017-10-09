@@ -1,6 +1,6 @@
 {
   "name": "webhookconnector",
-  "version": "1.0.1",
+  "version": "1.0.3",
   "description": "",
   "main": "webhookConnector.js",
   "scripts": {
@@ -34,13 +34,13 @@
   },
   "homepage": "https://github.com/Judahh/webhookConnector#readme",
   "dependencies": {
-    "flexiblepersistence": "1.0.1",
+    "flexiblepersistence": "1.0.2",
     "node-local-tunnel": "^0.1.8",
     "node-webhooks": "^1.2.4",
     "path": "0.12.7",
     "request": "^2.82.0",
     "dotenv": "^4.0.0",
-    "simpleutils": "^1.0.1",
+    "simpleutils": "^1.0.2",
     "@types/node": "8.0.24"
   },
   "devDependencies": {}
