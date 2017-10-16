@@ -36,7 +36,7 @@ export class WebhookConnector {
         console.log(result[0]);
         this.webhook.setId(result[0].id);
         this.webhook.setLink(result[0].link);
-      }else{
+      } else {
         this.getNgrok();
       }
     }
@@ -58,7 +58,7 @@ export class WebhookConnector {
     arch = os.platform() + arch.charAt(0).toUpperCase() + arch.slice(1);
 
     console.log("Starting ngrok...");
-    console.log("ARCH:"+arch);
+    console.log("ARCH:" + arch);
     console.log('sudo ./ngrok http ' + (process.env.PORT || 3000));
     childProcess.exec('sudo ./ngrok http ' + (process.env.PORT || 3000), { cwd: "ngrok/" + arch }, this.getWebhooks);
     this.getWebhooks();
@@ -128,58 +128,21 @@ export class WebhookConnector {
     }
   }
 
-  public upgrade(pusher: any, repository: any) {
-    if (pusher != undefined) {
-      console.log(pusher.name + " pushed to " + repository.name);
-    } else {
-      if (repository != undefined) {
-        console.log(repository.name + " pushed");
-      }
+  public upgrade(request: any) {
+    console.log(request.action);
+    if (request.action != undefined && request.action == "published") {
+      console.log("Downloading from Github...");
+      // console.log('curl -vLJO -H \'Accept: application/octet-stream\' \''+request.release.assets[0].url+'?access_token='+this.webhook.getToken()+'\'');
+      childProcess.exec('curl -vLJO -H \'Accept: application/octet-stream\' \'' + request.release.assets[0].url + '?access_token=' + this.webhook.getToken() + '\'', { cwd: ".." }, this.unzip);
+
+      console.log('REMOVE!!!');
+      this.removeWebhook();
     }
-    console.log("Pulling code from Github...");
-
-    this.removeWebhook();
-    // reset any changes that have been made locally
-    // childProcess.exec('sudo git reset --hard', this.currentReset);
-
-    // childProcess.exec('sudo git reset --hard', { cwd: "../backApp" }, this.childReset);
   }
 
-  private currentReset = (err, stdout, stderr) => {
-    console.log("Current Reset:");
-    this.showInfo(stdout, stderr);
-    // and ditch any files that have been added locally too
-    childProcess.exec('sudo git -C clean -df', this.currentClean);
-  }
 
-  private currentClean = (err, stdout, stderr) => {
-    console.log("Current Clean:");
-    this.showInfo(stdout, stderr);
-    // now pull down the latest
-    childProcess.exec('sudo git pull', this.currentPull);
-  }
-
-  private currentPull = (err, stdout, stderr) => {
-    console.log("Current Pull:");
-    this.showInfo(stdout, stderr);
-  }
-
-  private childReset = (err, stdout, stderr) => {
-    console.log("Child Reset:");
-    this.showInfo(stdout, stderr);
-    // and ditch any files that have been added locally too
-    childProcess.exec('sudo git clean -df', { cwd: "../backApp" }, this.childClean);
-  }
-
-  private childClean = (err, stdout, stderr) => {
-    console.log("Child Clean:");
-    this.showInfo(stdout, stderr);
-    // now pull down the latest
-    childProcess.exec('sudo git pull https://github.com/Judahh/appFramework.git master', { cwd: "../backApp" }, this.childPull);
-  }
-
-  private childPull = (err, stdout, stderr) => {
-    console.log("Child Pull:");
+  public unzip = (err, stdout, stderr) => {
+    console.log("UNZIP:");
     this.showInfo(stdout, stderr);
 
     // and npm install with --production
@@ -188,6 +151,7 @@ export class WebhookConnector {
     // and run tsc
     // childProcess.exec('sudo tsc', Page.execCallback);
   }
+
 
   private showInfo(stdout, stderr) {
     if (stdout) {

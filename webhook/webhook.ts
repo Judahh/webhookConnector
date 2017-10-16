@@ -27,14 +27,14 @@ export class Webhook {
     this.gitURL = process.env.GIT_URL;
     this.token = this.token.replaceAll("-NTK-", "");
 
-    if(link){
+    if (link) {
       this.setLink(link);
     }
 
     this.readOptions = {
       method: 'get',
       json: true,
-      url: this.gitURL + '/' + this.gitRepositoryUser +'/' + this.gitRepository +'/hooks/' + this.id,
+      url: this.gitURL + '/' + this.gitRepositoryUser + '/' + this.gitRepository + '/hooks/' + this.id,
       headers: {
         'Authorization': 'token ' + this.token,
         'Content-Type': 'application/json.',
@@ -45,7 +45,7 @@ export class Webhook {
     this.readAllOptions = {
       method: 'get',
       json: true,
-      url: this.gitURL + '/' + this.gitRepositoryUser +'/' + this.gitRepository +'/hooks',
+      url: this.gitURL + '/' + this.gitRepositoryUser + '/' + this.gitRepository + '/hooks',
       headers: {
         'Authorization': 'token ' + this.token,
         'Content-Type': 'application/json.',
@@ -56,7 +56,7 @@ export class Webhook {
     this.deleteOptions = {
       method: 'delete',
       json: true,
-      url: this.gitURL + '/' + this.gitRepositoryUser +'/' + this.gitRepository +'/hooks/' + this.id,
+      url: this.gitURL + '/' + this.gitRepositoryUser + '/' + this.gitRepository + '/hooks/' + this.id,
       headers: {
         'Authorization': 'token ' + this.token,
         'Content-Type': 'application/json.',
@@ -65,7 +65,7 @@ export class Webhook {
     };
   }
 
-  public setLink(link:string){
+  public setLink(link: string) {
     this.link = link;
     this.data = {
       "name": "web",
@@ -84,7 +84,7 @@ export class Webhook {
       method: 'post',
       body: this.data,
       json: true,
-      url: this.gitURL + '/' + this.gitRepositoryUser +'/' + this.gitRepository +'/hooks',
+      url: this.gitURL + '/' + this.gitRepositoryUser + '/' + this.gitRepository + '/hooks',
       headers: {
         'Authorization': 'token ' + this.token,
         'Content-Length': Buffer.byteLength(stringData, 'utf8'),
@@ -96,7 +96,7 @@ export class Webhook {
     this.updateOptions = {
       method: 'patch',
       json: true,
-      url: this.gitURL + '/' + this.gitRepositoryUser +'/' + this.gitRepository +'/hooks/' + this.id,
+      url: this.gitURL + '/' + this.gitRepositoryUser + '/' + this.gitRepository + '/hooks/' + this.id,
       headers: {
         'Authorization': 'token ' + this.token,
         'Content-Length': Buffer.byteLength(stringData, 'utf8'),
@@ -104,6 +104,19 @@ export class Webhook {
         'User-Agent': 'request'
       }
     };
+  }
+
+
+  public getGitURL(): string {
+    return this.gitURL
+  }
+
+  public getGitRepository(): string {
+    return this.gitRepository
+  }
+
+  public getGitRepositoryUser(): string {
+    return this.gitRepositoryUser
   }
 
   public setId(id: number) {
