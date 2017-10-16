@@ -58,6 +58,8 @@ export class WebhookConnector {
     arch = os.platform() + arch.charAt(0).toUpperCase() + arch.slice(1);
 
     console.log("Starting ngrok...");
+    console.log("ARCH:"+arch);
+    console.log('sudo ./ngrok http ' + (process.env.PORT || 3000));
     childProcess.exec('sudo ./ngrok http ' + (process.env.PORT || 3000), { cwd: "ngrok/" + arch }, this.getWebhooks);
     this.getWebhooks();
 
@@ -126,9 +128,6 @@ export class WebhookConnector {
     }
   }
 
-  /**
-   * GET all Heroes.
-   */
   public upgrade(pusher: any, repository: any) {
     if (pusher != undefined) {
       console.log(pusher.name + " pushed to " + repository.name);

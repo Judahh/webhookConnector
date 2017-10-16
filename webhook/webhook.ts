@@ -13,11 +13,18 @@ export class Webhook {
   private updateOptions;
   private deleteOptions;
 
+  private gitRepositoryUser;
+  private gitRepository;
+  private gitURL;
+
   private handler: Handler;
 
   constructor(link?: string) {
     this.handler = Handler.getInstance();
     this.token = process.env.TOKEN;
+    this.gitRepositoryUser = process.env.GIT_REPOSITORY_USER;
+    this.gitRepository = process.env.GIT_REPOSITORY;
+    this.gitURL = process.env.GIT_URL;
     this.token = this.token.replaceAll("-NTK-", "");
 
     if(link){
@@ -27,7 +34,7 @@ export class Webhook {
     this.readOptions = {
       method: 'get',
       json: true,
-      url: 'https://api.github.com/repos/Judahh/backAppFramework/hooks/' + this.id,
+      url: this.gitURL + '/' + this.gitRepositoryUser +'/' + this.gitRepository +'/hooks/' + this.id,
       headers: {
         'Authorization': 'token ' + this.token,
         'Content-Type': 'application/json.',
@@ -38,7 +45,7 @@ export class Webhook {
     this.readAllOptions = {
       method: 'get',
       json: true,
-      url: 'https://api.github.com/repos/Judahh/backAppFramework/hooks',
+      url: this.gitURL + '/' + this.gitRepositoryUser +'/' + this.gitRepository +'/hooks',
       headers: {
         'Authorization': 'token ' + this.token,
         'Content-Type': 'application/json.',
@@ -49,7 +56,7 @@ export class Webhook {
     this.deleteOptions = {
       method: 'delete',
       json: true,
-      url: 'https://api.github.com/repos/Judahh/backAppFramework/hooks/' + this.id,
+      url: this.gitURL + '/' + this.gitRepositoryUser +'/' + this.gitRepository +'/hooks/' + this.id,
       headers: {
         'Authorization': 'token ' + this.token,
         'Content-Type': 'application/json.',
@@ -64,7 +71,7 @@ export class Webhook {
       "name": "web",
       "active": true,
       "events": [
-        "push"
+        "release"
       ],
       "config": {
         "url": this.link,
@@ -77,7 +84,7 @@ export class Webhook {
       method: 'post',
       body: this.data,
       json: true,
-      url: 'https://api.github.com/repos/Judahh/backAppFramework/hooks',
+      url: this.gitURL + '/' + this.gitRepositoryUser +'/' + this.gitRepository +'/hooks',
       headers: {
         'Authorization': 'token ' + this.token,
         'Content-Length': Buffer.byteLength(stringData, 'utf8'),
@@ -89,7 +96,7 @@ export class Webhook {
     this.updateOptions = {
       method: 'patch',
       json: true,
-      url: 'https://api.github.com/repos/Judahh/backAppFramework/hooks/' + this.id,
+      url: this.gitURL + '/' + this.gitRepositoryUser +'/' + this.gitRepository +'/hooks/' + this.id,
       headers: {
         'Authorization': 'token ' + this.token,
         'Content-Length': Buffer.byteLength(stringData, 'utf8'),
