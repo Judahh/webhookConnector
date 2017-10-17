@@ -1,6 +1,6 @@
 {
   "name": "webhookconnector",
-  "version": "1.0.6-f",
+  "version": "1.0.7",
   "description": "",
   "main": "webhookConnector.js",
   "scripts": {
