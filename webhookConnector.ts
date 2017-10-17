@@ -4,7 +4,7 @@ import { Webhook } from "./webhook/webhook";
 import { Handler } from "flexiblepersistence";
 import * as os from 'os';
 // import * as webhook from 'node-webhooks';
-// var Webhook = require('node-webhooks');
+// let Webhook = require('node-webhooks');
 // import * as Webhook from 'node-webhooks';
 import * as request from 'request';
 
@@ -49,7 +49,7 @@ export class WebhookConnector {
    * GET all Heroes.
    */
   public startNgrok() {
-    var arch = os.arch();
+    let arch = os.arch();
 
     if (arch.includes("arm")) {
       arch = "arm";
@@ -68,7 +68,7 @@ export class WebhookConnector {
 
   private getNgrok = () => {
     console.log("Get ngrok...");
-    var options = {
+    let options = {
       method: 'get',
       json: true,
       url: 'http://localhost:4040/api/tunnels',
@@ -88,10 +88,10 @@ export class WebhookConnector {
     } else {
       if (body.tunnels.length > 0) {
         console.log("ngrok:");
-        for (var index = 0; index < body.tunnels.length; index++) {
-          var element = body.tunnels[index];
+        for (let index = 0; index < body.tunnels.length; index++) {
+          let element = body.tunnels[index];
           if (element.public_url.indexOf("https") != -1) {
-            var newLink = element.public_url + "/refresh";
+            let newLink = element.public_url + "/refresh";
             console.log(index + ":" + element.public_url);
             if (this.webhook.getLink() != newLink) {
               console.log(this.webhook.getLink() + "!=" + newLink);
@@ -133,7 +133,10 @@ export class WebhookConnector {
     if (request.action != undefined && request.action == "published") {
       console.log("Downloading from Github...");
       // console.log('curl -vLJO -H \'Accept: application/octet-stream\' \''+request.release.assets[0].url+'?access_token='+this.webhook.getToken()+'\'');
-      childProcess.exec('curl -vLJO -H \'Accept: application/octet-stream\' \'' + request.release.assets[0].url + '?access_token=' + this.webhook.getToken() + '\'', { cwd: ".." }, this.unzip);
+      let _self = this;
+      childProcess.exec('curl -vLJO -H \'Accept: application/octet-stream\' \'' + request.release.assets[0].url + '?access_token=' + this.webhook.getToken() + '\'',
+        { cwd: ".." },
+        (err, stdout, stderr) => { _self.unzip(err, stdout, stderr, request.release.assets[0].name); });
 
       console.log('REMOVE!!!');
       this.removeWebhook();
@@ -141,15 +144,18 @@ export class WebhookConnector {
   }
 
 
-  public unzip = (err, stdout, stderr) => {
+  public unzip = (err, stdout, stderr, fileName) => {
     console.log("UNZIP:");
-    this.showInfo(stdout, stderr);
 
-    // and npm install with --production
-    // childProcess.exec('sudo npm install', WebhookConnector.install);
-    // process.exit();
-    // and run tsc
-    // childProcess.exec('sudo tsc', Page.execCallback);
+    childProcess.exec('sudo unzip ' + fileName, { cwd: ".." }, this.restart);
+    // this.showInfo(stdout, stderr);
+  }
+
+  public restart = (err, stdout, stderr) => {
+    console.log("RESTART:");
+
+    childProcess.exec('sleep 1; sudo npm start');
+    process.exit();
   }
 
 
