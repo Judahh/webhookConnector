@@ -78,7 +78,7 @@ export class Webhook {
         "content_type": "json"
       }
     }
-    var stringData = JSON.stringify(this.data);
+    let stringData = JSON.stringify(this.data);
 
     this.addOptions = {
       method: 'post',
@@ -149,55 +149,55 @@ export class Webhook {
   }
 
   public getAddOptions() {
-    var content = {
+    let content = {
       id: this.id,
       link: this.link
     };
-    var event = new Event(Operation.add, "webhook", content);
+    let event = new Event(Operation.add, "webhook", content);
 
     this.handler.addEvent(event);
     return this.addOptions;
   }
 
   public getDeleteOptions() {
-    var content = {
+    let content = {
       id: this.id,
       link: this.link
     };
-    var event = new Event(Operation.delete, "webhook", content);
+    let event = new Event(Operation.delete, "webhook", content);
 
     this.handler.addEvent(event);
     return this.deleteOptions;
   }
 
   public getCorrectOptions() {
-    var content = {
+    let content = {
       id: this.id,
       link: this.link
     };
-    var event = new Event(Operation.correct, "webhook", content);
+    let event = new Event(Operation.correct, "webhook", content);
 
     this.handler.addEvent(event);
     return this.updateOptions;
   }
 
   public getUpdateOptions() {
-    var content = {
+    let content = {
       id: this.id,
       link: this.link
     };
-    var event = new Event(Operation.update, "webhook", content);
+    let event = new Event(Operation.update, "webhook", content);
 
     this.handler.addEvent(event);
     return this.updateOptions;
   }
 
   public getNonexistentOptions() {
-    var content = {
+    let content = {
       id: this.id,
       link: this.link
     };
-    var event = new Event(Operation.nonexistent, "webhook", content);
+    let event = new Event(Operation.nonexistent, "webhook", content);
 
     this.handler.addEvent(event);
     return this.deleteOptions;
