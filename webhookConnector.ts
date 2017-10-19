@@ -7,21 +7,16 @@ import * as os from 'os';
 // let Webhook = require('node-webhooks');
 // import * as Webhook from 'node-webhooks';
 import * as request from 'request';
+require('dotenv').config();
 
 export class WebhookConnector {
   private webhook: Webhook;
   private handler: Handler;
-  private static instance: WebhookConnector = new WebhookConnector();
 
-  constructor() {
+  constructor(name: string, host?: string, port?: number) {
     console.log("The Read is a singleton class and cannot be created!");
-    this.handler = Handler.getInstance();
-    this.webhook = new Webhook();
-    if (WebhookConnector.instance) {
-      throw new Error("The Read is a singleton class and cannot be created!");
-    }
-
-    WebhookConnector.instance = this;
+    this.handler = new Handler(name, host, port);
+    this.webhook = new Webhook(this.handler);
   }
 
   private getWebhooks = () => {
@@ -42,9 +37,6 @@ export class WebhookConnector {
     }
   }
 
-  public static getInstance(): WebhookConnector {
-    return WebhookConnector.instance;
-  }
   /**
    * GET all Heroes.
    */

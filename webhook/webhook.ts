@@ -19,8 +19,8 @@ export class Webhook {
 
   private handler: Handler;
 
-  constructor(link?: string) {
-    this.handler = Handler.getInstance();
+  constructor(handler: Handler, link?: string) {
+    this.handler = handler;
     this.token = process.env.TOKEN;
     this.gitRepositoryUser = process.env.GIT_REPOSITORY_USER;
     this.gitRepository = process.env.GIT_REPOSITORY;
