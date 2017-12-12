@@ -125,7 +125,7 @@ export class WebhookConnector {
   public upgrade(request: any) {
     console.log(request.action);
     if (request.action != undefined && request.action == "published") {
-      console.log("Downloading from Github...");
+      console.log("Downloading from Github...", request.release);
       // console.log('curl -vLJO -H \'Accept: application/octet-stream\' \''+request.release.assets[0].url+'?access_token='+this.webhook.getToken()+'\'');
       let _self = this;
       childProcess.exec('curl -vLJO -H \'Accept: application/octet-stream\' \'' + request.release.assets[0].url + '?access_token=' + this.webhook.getToken() + '\'',
