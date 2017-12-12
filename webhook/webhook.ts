@@ -19,12 +19,12 @@ export class Webhook {
 
   private handler: Handler;
 
-  constructor(handler: Handler, link?: string) {
+  constructor(handler: Handler, gitRepositoryUser: string, gitRepository: string, gitURL: string, link?: string) {
     this.handler = handler;
     this.token = process.env.TOKEN;
-    this.gitRepositoryUser = process.env.GIT_REPOSITORY_USER;
-    this.gitRepository = process.env.GIT_REPOSITORY;
-    this.gitURL = process.env.GIT_URL;
+    this.gitRepositoryUser = gitRepositoryUser;
+    this.gitRepository = gitRepository;
+    this.gitURL = gitURL;
     this.token = this.token.replaceAll("-NTK-", "");
 
     if (link) {

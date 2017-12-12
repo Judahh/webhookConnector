@@ -12,11 +12,13 @@ require('dotenv').config();
 export class WebhookConnector {
   private webhook: Webhook;
   private handler: Handler;
+  private production: boolean;
 
-  constructor(name: string, host?: string, port?: number) {
+  constructor(name: string, gitRepositoryUser: string, gitRepository: string, gitURL: string, production: boolean, host?: string, port?: number, link?: string) {
     console.log("The Read is a singleton class and cannot be created!");
     this.handler = new Handler(name, host, port);
-    this.webhook = new Webhook(this.handler);
+    this.webhook = new Webhook(this.handler, gitRepositoryUser, gitRepository, gitURL, link);
+    this.production=production;
   }
 
   private getWebhooks = () => {
@@ -128,7 +130,8 @@ export class WebhookConnector {
       let _self = this;
       childProcess.exec('curl -vLJO -H \'Accept: application/octet-stream\' \'' + request.release.assets[0].url + '?access_token=' + this.webhook.getToken() + '\'',
         { cwd: ".." },
-        (err, stdout, stderr) => { _self.unzip(err, stdout, stderr, request.release.assets[0].name); });
+        (err, stdout, stderr) => { _self.unzip(err, stdout, stderr, request.release.assets[0].name); }
+      );
 
       console.log('REMOVE!!!');
       this.removeWebhook();
