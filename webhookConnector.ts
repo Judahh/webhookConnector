@@ -13,12 +13,14 @@ export class WebhookConnector {
   private webhook: Webhook;
   private handler: Handler;
   private production: boolean;
+  private filename: string;
 
-  constructor(name: string, gitRepositoryUser: string, gitRepository: string, gitURL: string, production: boolean, host?: string, port?: number, link?: string) {
+  constructor(name: string, gitRepositoryUser: string, gitRepository: string, gitURL: string, production: boolean, filename: string, host?: string, port?: number, link?: string) {
     console.log("The Read is a singleton class and cannot be created!");
     this.handler = new Handler(name, host, port);
     this.webhook = new Webhook(this.handler, gitRepositoryUser, gitRepository, gitURL, link);
-    this.production=production;
+    this.production = production;
+    this.filename = filename;
   }
 
   private getWebhooks = () => {
@@ -128,10 +130,16 @@ export class WebhookConnector {
       console.log("Downloading from Github...", request.release);
       // console.log('curl -vLJO -H \'Accept: application/octet-stream\' \''+request.release.assets[0].url+'?access_token='+this.webhook.getToken()+'\'');
       let _self = this;
-      childProcess.exec('curl -vLJO -H \'Accept: application/octet-stream\' \'' + request.release.assets[0].url + '?access_token=' + this.webhook.getToken() + '\'',
-        { cwd: ".." },
-        (err, stdout, stderr) => { _self.unzip(err, stdout, stderr, request.release.assets[0].name); }
-      );
+      for (let index = 0; index < request.release.assets.length; index++) {
+        let asset = request.release.assets[index];
+        if(asset.name.indexOf(this.filename) !== -1){
+          childProcess.exec('curl -vLJO -H \'Accept: application/octet-stream\' \'' + asset.url + '?access_token=' + this.webhook.getToken() + '\'',
+            { cwd: ".." },
+            (err, stdout, stderr) => { _self.unzip(err, stdout, stderr, asset.name); }
+          );
+        }
+      }
+      
 
       console.log('REMOVE!!!');
       this.removeWebhook();
