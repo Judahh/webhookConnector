@@ -1,6 +1,6 @@
 {
   "name": "webhookconnector",
-  "version": "1.0.22",
+  "version": "1.0.23",
   "description": "",
   "main": "webhookConnector.js",
   "scripts": {
@@ -40,8 +40,9 @@
     "path": "0.12.7",
     "request": "2.87.0",
     "dotenv": "^6.0.0",
-    "simpleutils": "^1.0.5",
-    "@types/node": "10.5.4"
+    "simpleutils": "^1.0.5"
   },
-  "devDependencies": {}
+  "devDependencies": {
+    "@types/node": "10.5.4"
+  }
 }
