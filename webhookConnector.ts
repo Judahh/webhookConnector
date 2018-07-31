@@ -1,7 +1,7 @@
 import * as childProcess from 'child_process';
 import "simpleutils";
 import { Webhook } from "./webhook/webhook";
-import { Handler } from "flexiblepersistence";
+import { Handler, Database } from "flexiblepersistence";
 import * as os from 'os';
 // import * as webhook from 'node-webhooks';
 // let Webhook = require('node-webhooks');
@@ -15,16 +15,16 @@ export class WebhookConnector {
   private production: boolean;
   private filename: string;
 
-  constructor(name: string, gitRepositoryUser: string, gitRepository: string, gitURL: string, production: boolean, filename: string, host?: string, port?: number, link?: string) {
+  constructor(gitRepositoryUser: string, gitRepository: string, gitURL: string, production: boolean, filename: string, link?: string, database1?:Database, database2?:Database) {
     console.log("The Read is a singleton class and cannot be created!");
-    this.handler = new Handler(name, host, port);
+    this.handler = new Handler(database1, database2);
     this.webhook = new Webhook(this.handler, gitRepositoryUser, gitRepository, gitURL, link);
     this.production = production;
     this.filename = filename;
   }
 
   private getWebhooks = () => {
-    this.handler.readArray("webhooks", this.webhooksReceived);
+    this.handler.readArray("webhooks", {}, this.webhooksReceived);
   }
 
   private webhooksReceived = (error, result: Array<any>) => {
