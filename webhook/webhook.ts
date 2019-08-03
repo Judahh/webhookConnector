@@ -1,4 +1,4 @@
-import { Handler, Event, Operation } from "flexiblepersistence";
+import { Handler, Event, Operation } from 'flexiblepersistence';
 require('dotenv').config();
 
 export class Webhook {
@@ -25,7 +25,7 @@ export class Webhook {
     this.gitRepositoryUser = gitRepositoryUser;
     this.gitRepository = gitRepository;
     this.gitURL = gitURL;
-    this.token = this.token.replaceAll("-NTK-", "");
+    this.token = this.token.replaceAll('-NTK-', '');
 
     if (link) {
       this.setLink(link);
@@ -68,14 +68,14 @@ export class Webhook {
   public setLink(link: string) {
     this.link = link;
     this.data = {
-      "name": "web",
-      "active": true,
-      "events": [
-        "release"
+      'name': 'web',
+      'active': true,
+      'events': [
+        'release'
       ],
-      "config": {
-        "url": this.link,
-        "content_type": "json"
+      'config': {
+        'url': this.link,
+        'content_type': 'json'
       }
     }
     let stringData = JSON.stringify(this.data);
@@ -140,7 +140,7 @@ export class Webhook {
   }
 
   public eventResult = (error, result) => {
-    console.log("RESULT EVENT");
+    console.log('RESULT EVENT');
     if (error) {
       console.error(error);
     } else {
@@ -153,7 +153,7 @@ export class Webhook {
       id: this.id,
       link: this.link
     };
-    let event = new Event(Operation.add, "webhook", content);
+    let event = new Event(Operation.add, 'webhook', content);
 
     this.handler.addEvent(event);
     return this.addOptions;
@@ -164,7 +164,7 @@ export class Webhook {
       id: this.id,
       link: this.link
     };
-    let event = new Event(Operation.delete, "webhook", content);
+    let event = new Event(Operation.delete, 'webhook', content);
 
     this.handler.addEvent(event);
     return this.deleteOptions;
@@ -175,7 +175,7 @@ export class Webhook {
       id: this.id,
       link: this.link
     };
-    let event = new Event(Operation.correct, "webhook", content);
+    let event = new Event(Operation.correct, 'webhook', content);
 
     this.handler.addEvent(event);
     return this.updateOptions;
@@ -186,7 +186,7 @@ export class Webhook {
       id: this.id,
       link: this.link
     };
-    let event = new Event(Operation.update, "webhook", content);
+    let event = new Event(Operation.update, 'webhook', content);
 
     this.handler.addEvent(event);
     return this.updateOptions;
@@ -197,7 +197,7 @@ export class Webhook {
       id: this.id,
       link: this.link
     };
-    let event = new Event(Operation.nonexistent, "webhook", content);
+    let event = new Event(Operation.nonexistent, 'webhook', content);
 
     this.handler.addEvent(event);
     return this.deleteOptions;
