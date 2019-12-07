@@ -1,5 +1,4 @@
 import { Handler, Event, Operation } from 'flexiblepersistence';
-require('dotenv').config();
 
 export class Webhook {
   private id: number;
@@ -19,12 +18,12 @@ export class Webhook {
 
   private handler: Handler;
 
-  constructor(handler: Handler, gitRepositoryUser: string, gitRepository: string, gitURL: string, link?: string) {
+  constructor(handler: Handler, packageJSON: any, link?: string) {
     this.handler = handler;
-    this.token = process.env.TOKEN;
-    this.gitRepositoryUser = gitRepositoryUser;
-    this.gitRepository = gitRepository;
-    this.gitURL = gitURL;
+    this.token = packageJSON.env.git.token;
+    this.gitRepositoryUser = packageJSON.env.git.user;
+    this.gitRepository = packageJSON.env.git.repository;
+    this.gitURL = packageJSON.env.git.url;
     this.token = this.token.replaceAll('-NTK-', '');
 
     if (link) {
