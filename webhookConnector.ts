@@ -25,7 +25,7 @@ export class WebhookConnector {
   /**
    * GET all Heroes.
    */
-  public startNgrok() {
+  public startNgrok() {// change to serveo
     let arch = os.arch();
 
     if (arch.includes('arm')) {
