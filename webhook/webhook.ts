@@ -152,51 +152,62 @@ export class Webhook {
       id: this.id,
       link: this.link
     };
-    let event = new Event(Operation.add, 'webhook', content);
+    let event = new Event({operation: Operation.add, name: 'webhook', content: content});
 
     this.handler.addEvent(event);
     return this.addOptions;
   }
 
   public getDeleteOptions() {
-    let content = {
+    let selection = {
       id: this.id,
       link: this.link
     };
-    let event = new Event(Operation.delete, 'webhook', content);
+    let event = new Event({operation: Operation.delete, name: 'webhook', selection: selection});
 
     this.handler.addEvent(event);
     return this.deleteOptions;
   }
 
   public getCorrectOptions() {
+    let selection = {
+      id: this.id
+    };
+
     let content = {
       id: this.id,
       link: this.link
     };
-    let event = new Event(Operation.correct, 'webhook', content);
+
+    let event = new Event({operation: Operation.correct, name: 'webhook', selection: selection, content: content});
 
     this.handler.addEvent(event);
     return this.updateOptions;
   }
 
   public getUpdateOptions() {
+    let selection = {
+      id: this.id
+    };
+
     let content = {
       id: this.id,
       link: this.link
     };
-    let event = new Event(Operation.update, 'webhook', content);
+
+    let event = new Event({operation: Operation.update, name: 'webhook', selection: selection, content: content});
 
     this.handler.addEvent(event);
     return this.updateOptions;
   }
 
   public getNonexistentOptions() {
-    let content = {
+    let selection = {
       id: this.id,
       link: this.link
     };
-    let event = new Event(Operation.nonexistent, 'webhook', content);
+
+    let event = new Event({operation: Operation.delete, name: 'webhook', selection: selection});
 
     this.handler.addEvent(event);
     return this.deleteOptions;

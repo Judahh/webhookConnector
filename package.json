@@ -1,20 +1,19 @@
 {
   "name": "webhookconnector",
-  "version": "1.0.31",
+  "version": "1.1.0",
   "description": "",
   "main": "webhookConnector.js",
   "scripts": {
-    "postinstall": "tsc",
+    "postinstall": "",
+    "prepublish": "",
+    "build": "tsc",
     "lint": "tslint \"src/**/*.ts\"",
-    "test": "ng test",
-    "prestart": "",
+    "test": "jest --passWithNoTests",
     "tsc": "tsc",
     "tsc:w": "tsc -w",
     "ntsc": "ntsc",
     "ntsc:w": "ntsc -w",
-    "build": "gulp build",
-    "clean": "shx rm -Rf build/",
-    "gulp": "gulp"
+    "clean": "shx rm -Rf build/"
   },
   "repository": {
     "type": "git",
@@ -27,13 +26,18 @@
   },
   "homepage": "https://github.com/Judahh/webhookConnector#readme",
   "dependencies": {
-    "flexiblepersistence": "1.0.27",
+    "flexiblepersistence": "1.0.35",
     "node-webhooks": "^1.4.2",
     "path": "0.12.7",
     "request": "2.88.0",
-    "simpleutils": "^1.0.18"
+    "simpleutils": "^1.0.20"
   },
   "devDependencies": {
-    "@types/node": "13.1.2"
+    "jest": "^24.9.0",
+    "ts-jest": "^24.3.0",
+    "tslint": "^5.20.1",
+    "typescript": "3.7.5",
+    "@types/node": "13.1.7",
+    "@types/jest": "^24.9.0"
   }
 }
