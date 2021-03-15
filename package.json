@@ -26,7 +26,7 @@
   },
   "homepage": "https://github.com/Judahh/webhookConnector#readme",
   "dependencies": {
-    "flexiblepersistence": "1.0.35",
+    "flexiblepersistence": "1.4.0",
     "node-webhooks": "^1.4.2",
     "path": "0.12.7",
     "request": "2.88.0",
