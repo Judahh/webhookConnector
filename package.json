@@ -30,7 +30,7 @@
     "node-webhooks": "^1.4.2",
     "path": "0.12.7",
     "request": "2.88.0",
-    "simpleutils": "^1.0.20"
+    "simpleutils": "^1.0.21"
   },
   "devDependencies": {
     "jest": "^24.9.0",
